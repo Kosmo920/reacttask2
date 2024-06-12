@@ -1,20 +1,16 @@
 import { Box, Button, Input } from "@chakra-ui/react";
-import { FC, useState } from "react";
-import { IExpense } from "./App";
+import { FC, useContext, useState } from "react";
+import { ExpensesContext } from "../context/ExpensesProvider";
 
-interface IExpenseFormProps {
-    onAddExpense: (expense: IExpense) => void;
-}
-
-const ExpenseForm: FC<IExpenseFormProps> = (props) => {
-    const {onAddExpense} = props;
-    const [name, setName] = useState('');
-    const [sum, setSum] = useState('');
-    const [category, setCategory] = useState('');
-    const [date, setDate] = useState('');
+const ExpenseForm: FC = () => {
+  const { handleAddExpense } = useContext(ExpensesContext)!;
+  const [name, setName] = useState('');
+  const [sum, setSum] = useState('');
+  const [category, setCategory] = useState('');
+  const [date, setDate] = useState('');
 
     return(
-        <Box border='2px solid black' w='500px'>
+        <Box w='500px'>
       <Input
         placeholder='Введіть назву'
         value={name}
@@ -40,7 +36,7 @@ const ExpenseForm: FC<IExpenseFormProps> = (props) => {
         setSum('');
         setCategory('');
         setDate('');
-        onAddExpense({ name, sum, category, date });
+        handleAddExpense({ name, sum, category, date });
       }}>Додати витрату</Button>
     </Box>
   );

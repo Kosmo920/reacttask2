@@ -1,22 +1,17 @@
 import { Table, Tbody, Th, Thead, Tr } from '@chakra-ui/react';
-import { FC } from 'react';
-import { IExpense } from './App';
+import { FC, useContext } from 'react';
+import { ExpensesContext } from '../context/ExpensesProvider';
 import ExpenseItem from './ExpenseItem';
 
-interface IExpenseListProps{
-    expenses: IExpense[];
-    onDeleteExpense: (expense: IExpense) => void;
-    onChangeExpense: (expense: IExpense) => void;
-}
 
-const ExpenseList: FC <IExpenseListProps> = (props) =>{
-    const {expenses, onDeleteExpense, onChangeExpense} = props;
+const ExpenseList: FC = () => {
+    const { expenses, handleDeleteExpense, handleChangeExpense } = useContext(ExpensesContext)!;
     const rows = expenses.map((expense, index) => (
         <ExpenseItem
         key={index}
         expense={expense}
-        onDelete={onDeleteExpense}
-        onChange={onChangeExpense}
+        onDelete={handleDeleteExpense}
+        onChange={handleChangeExpense}
         />
     ));
 

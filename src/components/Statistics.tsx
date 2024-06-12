@@ -1,13 +1,9 @@
 import { Box, Input, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
-import { FC, useState } from 'react';
-import { IExpense } from './App';
+import { FC, useContext, useState } from 'react';
+import { ExpensesContext } from '../context/ExpensesProvider';
 
-interface IStatisticsProps{
-    expenses: IExpense[];
-}
-
-const Statistics: FC<IStatisticsProps> = (props) => {
-    const {expenses} = props;
+const Statistics: FC = () => {
+    const { expenses } = useContext(ExpensesContext)!;
     const [filter, setFilter] = useState('');
     const filteredExpenses = expenses.filter(expense =>
         expense.date.includes(filter)
@@ -19,7 +15,7 @@ const Statistics: FC<IStatisticsProps> = (props) => {
                 value={filter}
                 onChange={(e) => setFilter(e.target.value)}
             />
-            <Table border='2px solid black' w='500px'>
+            <Table border='2px solid black' w='465px'>
                 <Thead>
                     <Tr>
                         <Th>Name</Th>

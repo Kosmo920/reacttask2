@@ -1,5 +1,6 @@
-import { Box } from '@chakra-ui/react';
-import { FC, useEffect, useState } from 'react';
+import { Box, ChakraProvider } from '@chakra-ui/react';
+import { FC } from 'react';
+import { ExpensesProvider } from '../context/ExpensesProvider';
 import ExpenseForm from './ExpenseForm';
 import ExpenseList from './ExpenseList';
 import Statistics from './Statistics';
@@ -20,40 +21,17 @@ const Expenses: IExpense[] = [
 ];
 
 const App: FC = () => {
-  const [expenses, setExpenses] = useState<IExpense[]>(Expenses);
-
-  useEffect(() => {
-    localStorage.setItem('expenses', JSON.stringify(expenses));
-  }, [expenses]);
-
-  const handleAddExpense = (expense: IExpense) => {
-    setExpenses([...expenses, expense]);
-  };
-
-  const handleDeleteExpense = (expenseToDelete: IExpense) => {
-    setExpenses(expenses.filter(expense => expense !== expenseToDelete));
-  };
-
-  const handleChangeExpense = (updatedExpense: IExpense) => {
-    setExpenses(expenses.map(expense => {
-      if (expense.name === updatedExpense.name) {
-        return updatedExpense;
-      } else {
-        return expense;
-      }
-    }));
-  };
 
   return (
-    <Box>
-      <ExpenseForm onAddExpense={handleAddExpense} />
-      <ExpenseList
-        expenses={expenses}
-        onDeleteExpense={handleDeleteExpense}
-        onChangeExpense={handleChangeExpense}
-      />
-      <Statistics expenses={expenses} />
-    </Box>
+    <ChakraProvider>
+      <ExpensesProvider Expenses={Expenses}>
+        <Box>
+          <ExpenseForm/>
+          <ExpenseList/>
+          <Statistics/>
+        </Box>
+      </ExpensesProvider>
+    </ChakraProvider>
   );
 }
 
